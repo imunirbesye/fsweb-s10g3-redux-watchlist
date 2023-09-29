@@ -2,13 +2,22 @@ import { useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import Movie from "./components/Movie";
 import FavMovie from "./components/FavMovie";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite } from "./actions/favoriAction";
+import { movies } from "./movies";
 
 function App() {
   const [sira, setSira] = useState(0);
-  const favMovies = [];
+  const favMovies = useSelector((store) => store.favorites);
+  const dispatch = useDispatch();
 
   function sonrakiFilm() {
     setSira(sira + 1);
+  }
+
+  function listemeEkle() {
+    dispatch(addFavorite(movies[sira]));
+    console.log(favMovies)
   }
 
   return (
@@ -32,7 +41,7 @@ function App() {
             >
               Sıradaki
             </button>
-            <button className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white">
+            <button className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white" onClick={listemeEkle}>
               Listeme ekle
             </button>
           </div>
